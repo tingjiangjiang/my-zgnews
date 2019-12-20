@@ -2,15 +2,16 @@
   <div class="top">
     <div class="head">
       <div class="left">
-        <img src="https://www.zg.news/images/logo.png" alt="">
+        <img src="https://www.zg.news/images/logo.png" alt=""  >
       </div>
       <div class="right">
         <span>
-          <router-link to="/" v-on:click="addclass()" :class="{a_clicked:isActive}">新闻</router-link>
+          <router-link to="/" @click.native="addclass" :class="{a_clicked:isActive}">新闻</router-link>
         </span>
         <span>
-          <router-link to="/new-flash"  v-on:click="addclass1()" :class="{a_clicked:isBctive}">快讯</router-link>
+          <router-link to="/new-flash"  v-on:click.native="addclass1" :class="{a_clicked:isBctive}">快讯</router-link>
         </span>
+        <div></div>
       </div>
     </div>
   </div>
@@ -30,12 +31,11 @@ export default {
     }
   },
   methods:{
-    addclass(){
-      console.log(1)
+    addclass:function(){
        this.isActive=true;
        this.isBctive=false;
     },
-    addclass1(){
+    addclass1:function(){
        this.isActive=false;
        this.isBctive=true;
     }

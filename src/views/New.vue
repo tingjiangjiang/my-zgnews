@@ -79,12 +79,41 @@
           </div>
         </div>
       </div>
-      <div class="said"></div>
+      <div class="said">
+        <div class="top">
+          <my-sideTable v-for="(item,index) in res" :key="index" :array="item"></my-sideTable>
+        </div>
+        <div class="bottom">
+          
+        </div>
+      </div>
     </div>
+    <div v-infinite-scroll ="loadMore" infinite-scroll-disabled ="busy" infinite-scroll-distance="0">
+              <img src="../assets/logo.png" alt="">
+          </div>
+<h1>Random User</h1>
+    <div class="person" v-for="(person, index) in p" :key="index">
+      <div class="left">
+        <img :src="person.icon" alt="">
+      </div>
+      <div class="right">
+        <p>{{ person.title}} </p>
+        <ul>
+          
+          <div class="text-capitalize">
+            <strong>Location:</strong> {{ person.author}}
+          </div>
+        </ul>
+      </div>
+    </div>
+
+
   </div>
 </template>
 
 <script>
+  var count = 0;
+
 // @ is an alias to /src
 // import Header from '@/components/Header.vue/'
 import store from '@/store/index'
@@ -92,12 +121,15 @@ import {mapState,mapMutations,mapGetters} from 'vuex'
 import axios from 'axios'
 import album from '@/components/album'
 import littleNew from '@/components/littleNew'
+import sideTable from '@/components/sideTable'
+
 
 
 export default {
   components:{
     'my-album':album,
-    'my-littleNew':littleNew
+    'my-littleNew':littleNew,
+    'my-sideTable':sideTable
   },
   data(){
     return{
@@ -119,6 +151,8 @@ export default {
         icon:'',
         title:''
       },
+      busy:false,
+      p:[]
     }
   },
   store,
@@ -127,6 +161,7 @@ export default {
     // ...mapGetters(['count'])
   },//computed属性可以在输出前，对data中的属性值进行改变
   created(){
+
     this.$http.get("/posts").then(res => {
       let arr=[]
       let new_indexs = res.data.posts;
@@ -135,10 +170,6 @@ export default {
       this.res_item1 = this.res[1];
       this.res_item2 = this.res[2];
       this.res_item3 = this.res[3];
-
-
-
-      console.log(this.res);
       // console.log(new_indexs instanceof Array);
       let arr_indexs = new_indexs.slice(0,5);
       arr_indexs.forEach(function(item){
@@ -146,21 +177,30 @@ export default {
       })
       this.lunbo = arr;
       
-});
+    });
+  },
+  watch:{
+    p:function(newtr,old){
+      console.log(newtr,old)
+    }
   },
   methods: {
-      
       // ...mapMutations([
       // 'add','reduce'
     // ])
-    async findNew_index(){
-      // let response = await axios.get('/api/v1/news_index');
-      // let new_indexs = response.data[0];
-      // console.log(new_indexs)
-    }
-    }
+    loadMore:function(){
+      // console.log("触发事件了吗？")
+      this.busy = true;
+       this.$http.get('/posts').then(response => {
+            this.p.push(response.data.posts[0])
+      })
+            this.busy = false;
+
+       }
     
+  }
 }
+  
 </script>
 <style scoped>
 /* 大概布局 */
@@ -247,4 +287,33 @@ export default {
     flex-direction: column;
     justify-content: space-between;
   }
+  .said>.top{
+    border:1px solid #ccc;
+  }
+
+  /* 测试 */
+.person {
+  background: #ccc;
+  border-radius: 2px;
+  width: 20%;
+  margin: 0 auto 15px auto;
+  padding: 15px;
+
+  img {
+    width: 100%;
+    height: auto;
+    border-radius: 2px;
+  }
+
+  p:first-child {
+    text-transform: capitalize;
+    font-size: 2rem;
+    font-weight: 900;
+  }
+
+  .text-capitalize {
+    text-transform: capitalize;
+  }
+}
+
 </style>
