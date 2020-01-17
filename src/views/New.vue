@@ -84,11 +84,14 @@
           <my-sideTable v-for="(item,index) in res" :key="index" :array="item"></my-sideTable>
         </div>
         <div class="bottom">
-          
+          <div class="buttonWrapper">
+            <button>Start</button>
+            <button>End</button>
+          </div>
         </div>
       </div>
     </div>
-    <div v-infinite-scroll ="loadMore" infinite-scroll-disabled ="busy" infinite-scroll-distance="0">
+    <div v-infinite-scroll ="loadMore" infinite-scroll-disabled ="busy" infinite-scroll-distance="10">
               <img src="../assets/logo.png" alt="">
           </div>
 <h1>Random User</h1>
@@ -298,7 +301,7 @@ export default {
   width: 20%;
   margin: 0 auto 15px auto;
   padding: 15px;
-
+}
   img {
     width: 100%;
     height: auto;
@@ -314,6 +317,83 @@ export default {
   .text-capitalize {
     text-transform: capitalize;
   }
+
+  /* 初玩sass */
+  /* Reset */
+
+/* First button */
+
+.buttonWrapper button:first-child {
+    padding: 10px 20px;
+    font-size: 24px;
+    border-radius: 4px;
+    color: white;
+    border: none;
+    margin: 40px;
+    background: #55acee;
+    box-shadow: 0px 5px 0px 0px black;
 }
+
+/* First button hover */
+
+.buttonWrapper button:first-child:hover {
+    animation: horizontalShake .5s; 
+    
+}
+
+/* Last button */
+
+.buttonWrapper button:last-child {
+    padding: 10px 20px;
+    font-size: 24px;
+    border-radius: 4px;
+    color: white;
+    border: none;
+    margin: 40px;
+    background: #2ECC71;
+    box-shadow: 0px 5px 0px 0px black;
+}
+
+/* Last button hover */
+
+.buttonWrapper button:last-child:hover {
+    animation: verticalShake .5s; 
+}
+
+/* Shake horizontally */
+
+@keyframes horizontalShake {
+    0% {
+        transform: translateX(10%);
+    }
+    25% {
+        transform: translateX(-10%);
+    }
+    75% {
+        transform: translateX(10%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+/* Shake Vertically */
+
+@keyframes verticalShake {
+    0% {
+        transform: translateY(10%);
+    }
+    25% {
+        transform: translateY(-10%);
+    }
+    75% {
+        transform: translateY(10%);
+    }
+    100% {
+        transform: translateY(0%);
+    }
+}
+
+
 
 </style>
